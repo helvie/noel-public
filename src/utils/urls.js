@@ -1,3 +1,3 @@
-// const BACKEND_URL = "https://zimzoumjs-backend.vercel.app"
-const BACKEND_URL = "https://noel.helvie.fr"
+
+const BACKEND_URL = "*****"
 export { BACKEND_URL }; 
