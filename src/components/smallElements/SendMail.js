@@ -3,6 +3,7 @@ import { faFloppyDisk, faRotateLeft, faPaperPlane } from '@fortawesome/free-soli
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { BACKEND_URL } from '@/utils/urls';
 
 const SendMail = (props) => {
     const [mailMessageInput, setMailMessageInput] = useState("");
@@ -48,7 +49,7 @@ const SendMail = (props) => {
         };
 
         try {
-            const response = await fetch(`https://noel.helvie.fr/api/${mailRoute}`, {
+            const response = await fetch(`${BACKEND_URL}/api/${mailRoute}`, {
                 method: 'POST',
                 headers: {
                     "Noel-Token": user.token,

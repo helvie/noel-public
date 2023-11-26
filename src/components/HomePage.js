@@ -11,6 +11,7 @@ import ConnectionUser from './ConnectionUser';
 import { useSelector, useDispatch } from 'react-redux';
 import { login, logout, updateUserData, updateIdListe } from '../reducers/user'
 import { useRouter } from 'next/router';
+import { BACKEND_URL } from '@/utils/urls';
 
 //COMPOSANTS
 import ChatContainer from "../components/ChatContainer";
@@ -414,7 +415,7 @@ function HomePage() {
     const swapOrderInBdd = async (idRemplacant, idRemplace) => {
 
         try {
-            const response = await fetch("https://noel.helvie.fr/api/changeOrdreCadeau", {
+            const response = await fetch(`${BACKEND_URL}/api/changeOrdreCadeau`, {
                 method: 'POST',
                 headers: {
                     "Noel-Token": user.token,
@@ -548,7 +549,7 @@ function HomePage() {
 
     const handleOfferedClick = (index, idListe, offered) => {
 
-        fetch("https://noel.helvie.fr/api/euPasEuCadeau", {
+        fetch(`${BACKEND_URL}/api/euPasEuCadeau`, {
             method: 'PUT',
             headers: {
                 "Noel-Token": user.token,
@@ -777,7 +778,7 @@ function HomePage() {
         try {
 
             if (giftDatas.giftKey === 999999 || giftDatas.giftKey === 999998) {
-                const response = await fetch("https://noel.helvie.fr/api/insertCadeau", {
+                const response = await fetch(`${BACKEND_URL}/api/insertCadeau`, {
                     method: 'POST',
                     headers: {
                         "Noel-Token": user.token,
@@ -821,7 +822,7 @@ function HomePage() {
                     throw new Error("Failed to save the gift. Status: " + response.status);
                 }
             } else {
-                const response = await fetch("https://noel.helvie.fr/api/updateCadeau", {
+                const response = await fetch(`${BACKEND_URL}/api/updateCadeau`, {
                     method: 'POST',
                     headers: {
                         "Noel-Token": user.token,

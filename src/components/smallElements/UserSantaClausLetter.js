@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { updateUserData } from '@/reducers/user';
 import { useSelector, useDispatch } from 'react-redux';
+import { BACKEND_URL } from '@/utils/urls';
 
 
 
@@ -39,7 +40,7 @@ const UserSantaClausLetter = (props) => {
 
         try {
 
-            const response = await fetch("https://noel.helvie.fr/api/updateLettrePereNoel", {
+            const response = await fetch(`${BACKEND_URL}/api/updateLettrePereNoel`, {
                 method: 'POST',
                 headers: {
                     "Noel-Token": user.token,

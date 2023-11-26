@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import Switch from '@mui/material/Switch';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUserData } from '@/reducers/user';
+import { BACKEND_URL } from '@/utils/urls';
 
 const UserEmailNameOrMDPChange = (props) => {
     const [userEmailInput, setUserEmailInput] = useState("");
@@ -110,7 +111,7 @@ const UserEmailNameOrMDPChange = (props) => {
 
     
             try {
-                const response = await fetch("https://noel.helvie.fr/api/updateUtilisateur", {
+                const response = await fetch(`${BACKEND_URL}/api/updateUtilisateur`, {
                     method: 'POST',
                     headers: {
                         "Noel-Token": user.token,

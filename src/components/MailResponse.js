@@ -10,6 +10,7 @@ import { login } from '@/reducers/user';
 import { updateUserData } from '@/reducers/user';
 import ConnectionUser from './ConnectionUser';
 import { useRouter } from 'next/router';
+import { BACKEND_URL } from '@/utils/urls';
 
 const MailResponse = (props) => {
 
@@ -91,7 +92,7 @@ const MailResponse = (props) => {
         try {
 
 
-            const response = await fetch("https://noel.helvie.fr/api/envoiReponseMessage", {
+            const response = await fetch(`${BACKEND_URL}/api/envoiReponseMessage`, {
                 method: 'POST',
 
                 headers: {
@@ -124,7 +125,7 @@ const MailResponse = (props) => {
 
     const fetchData = async (idmessage, token, name) => {
         try {
-            const response = await fetch(`https://noel.helvie.fr/api/getmessage.php?idmessage=${idmessage}`, {
+            const response = await fetch(`${BACKEND_URL}/api/getmessage.php?idmessage=${idmessage}`, {
                 headers: {
                     "user-name": encodeURIComponent(name),
                     "app-name": "NoelTan",
