@@ -121,6 +121,9 @@ function HomePage() {
 
     const [editingMoveGift, setEditingMoveGift] = useState("");
 
+    const [openChangeSectionModal, setOpenChangeSectionModal] = useState(false);
+
+
     const user = useSelector((state) => state.user);
     const sizeOfWindow = useSelector((state) => state.windowSize);
     const dispatch = useDispatch();
@@ -193,7 +196,7 @@ function HomePage() {
                     //....mise en édition d'un cadau au clic sur édit
                     setEditingGift={(idNumber) => setEditingGift(idNumber)}
 
-                                editingMoveGift={editingMoveGift}
+                    editingMoveGift={editingMoveGift}
 
                 />
 
@@ -338,6 +341,7 @@ function HomePage() {
                         // Récupération et stockage des listes et cadeaux
                         const listesEtCadeauxService = ListesEtCadeauxService();
                         const giftsResponse = await listesEtCadeauxService.getListesEtCadeaux(name, token);
+                        console.log(giftsResponse)
 
                         if (giftsResponse.success) {
                             const idListe = giftsResponse.gifts.filter((liste) => liste.pseudo === userData.login)[0].idListe
@@ -732,39 +736,39 @@ function HomePage() {
     // Prise en compte pour l'affichage de la modification d'un cadeau
     //-----------------------------------------------------------------------------------
 
-    const localUpdateGift = (giftData) => {
-        setNoOfferedGifts((prevGiftsList) => {
-            // const filteredOrdreGifts = prevGiftsList.filter(
-            //     (gift) => gift.Ordre !== 999999 && gift.Ordre !== 999998
-            // );
-            // const maxOrdre = Math.max(...filteredOrdreGifts.map((gift) => gift.Ordre), 0);
+    // const localUpdateGift = (giftData) => {
+    //     setNoOfferedGifts((prevGiftsList) => {
+    //         // const filteredOrdreGifts = prevGiftsList.filter(
+    //         //     (gift) => gift.Ordre !== 999999 && gift.Ordre !== 999998
+    //         // );
+    //         // const maxOrdre = Math.max(...filteredOrdreGifts.map((gift) => gift.Ordre), 0);
 
-            // const filteredIdGifts = prevGiftsList.filter(
-            //     (gift) => gift.Ordre !== 999999 && gift.Ordre !== 999998
-            // );
-            const maxId = Math.max(...prevGiftsList.map((gift) => gift.id), 0);
+    //         // const filteredIdGifts = prevGiftsList.filter(
+    //         //     (gift) => gift.Ordre !== 999999 && gift.Ordre !== 999998
+    //         // );
+    //         const maxId = Math.max(...prevGiftsList.map((gift) => gift.id), 0);
 
-            const updatedGifts = prevGiftsList.map((gift) => {
-                if (gift.id === giftData.giftKey) {
-                    return {
-                        ...gift,
-                        id: giftData.giftKey === 999999 || giftData.giftKey === 999998 ? maxId + 1 : gift.id,
-                        title: giftData.titleInput || giftData.title || gift.title,
-                        detail: giftData.detailInput || giftData.detail || gift.detail,
-                        url: giftData.urlInput || giftData.url || gift.url,
-                        Ordre: giftData.ordre || giftData.Ordre
-                    };
-                }
-                return gift;
-            });
+    //         const updatedGifts = prevGiftsList.map((gift) => {
+    //             if (gift.id === giftData.giftKey) {
+    //                 return {
+    //                     ...gift,
+    //                     id: giftData.giftKey === 999999 || giftData.giftKey === 999998 ? maxId + 1 : gift.id,
+    //                     title: giftData.titleInput || giftData.title || gift.title,
+    //                     detail: giftData.detailInput || giftData.detail || gift.detail,
+    //                     url: giftData.urlInput || giftData.url || gift.url,
+    //                     Ordre: giftData.ordre || giftData.Ordre
+    //                 };
+    //             }
+    //             return gift;
+    //         });
 
-            updatedGifts.sort((a, b) => Number(a.Ordre) - Number(b.Ordre));
+    //         updatedGifts.sort((a, b) => Number(a.Ordre) - Number(b.Ordre));
 
-            setOrderChange(orderChange + 1)
+    //         setOrderChange(orderChange + 1)
 
-            return updatedGifts;
-        });
-    };
+    //         return updatedGifts;
+    //     });
+    // };
 
 
     //....Gestion de l'enregistrement des modifications depuis la modale
@@ -846,119 +850,7 @@ function HomePage() {
             console.error("Erreur dans l'enregistrement", error);
         }
     };
-    // const handleSaveChanges = (giftDatas) => {
-    //     console.log(giftDatas)
-    //     // const giftOrdre = giftDatas.ordre ? giftDatas.ordre : lowestOrderGift-1;
-    //     // if(!giftDatas.ordre){setLowestOrderGift(lowestOrderGift-1)}
-    //     // console.log(giftDatas)
-    //     // console.log(giftOrdre)
 
-    //     // // Si le cadeau est un nouveau cadeau
-    //     if (giftDatas.giftKey === 999999 || giftDatas.giftKey === 999998) {
-
-    //         fetch("https://noel.helvie.fr/api/insertCadeau", {
-    //             method: 'POST',
-    //             headers: {
-    //                 "Noel-Token": user.token,
-    //                 "User-Name": encodeURIComponent(user.name),
-    //                 "App-Name": "NoelTan",
-    //                 "content-type": 'application/json'
-    //             },
-
-    //             body: JSON.stringify({
-    //                 idListe: giftDatas.idListe,
-    //                 title: giftDatas.titleInput ? giftDatas.titleInput : giftDatas.title ? giftDatas.title : "",
-    //                 detail: giftDatas.detailInput ? giftDatas.detailInput : giftDatas.detail ? giftDatas.detail : "",
-    //                 url: giftDatas.urlInput ? giftDatas.urlInput : giftDatas.url ? giftDatas.url : "",
-    //                 ordre: giftDatas.Ordre
-    //             })
-    //         })
-    //             .then(response => {
-    //                 if (response.status === 200) {
-    //                     setErrorLoginPass(false)
-
-    //                     // Récupération et stockage des listes et cadeaux
-    //                     const listesEtCadeauxService = ListesEtCadeauxService();
-    //                     const giftsResponse = await listesEtCadeauxService.getListesEtCadeaux(logs, token);
-
-    //                     if (giftsResponse.success) {
-    //                         const idListe = giftsResponse.gifts.filter((liste) => liste.pseudo === userData.login)[0].idListe
-
-    //                         dispatch(updateIdListe({
-    //                             idListe: idListe
-    //                         }));
-    //                         const allConnectedUserGifts = giftsResponse.gifts.filter((data) => data.pseudo.toLowerCase() === name.toLowerCase())[0].gifts;
-
-    //                         const lowestOrder = allConnectedUserGifts.reduce((minGift, currentGift) => {
-    //                             return !minGift || Number(currentGift.Ordre) < Number(minGift.Ordre) ? currentGift : minGift;
-    //                         }, null);
-
-    //                         //Stockage du plus petit ordre de cadeau
-    //                         setLowestOrderGift(lowestOrder)
-    //                         //Stockage des cadeaux non offerts de l'utilisateur connecté
-    //                         setNoOfferedGifts(allConnectedUserGifts.filter((data) => data.offered === false));
-
-    //                         setEditingGift(-1)
-
-    //                     } else { console.log("Erreur lors de la récupération des listes"); }
-
-
-    //                     // setEditingGift(-1)
-    //                     // if (giftDatas.giftKey === 999998) {
-    //                     //     setGiftSavedModalVisible(true);
-    //                     //     addNewGift(giftDatas)
-    //                     // }
-    //                     // // localUpdateGift(giftDatas);
-
-    //                     // return response.text();
-
-    //                 } else {
-
-    //                     setErrorLoginPass(true)
-    //                     throw new Error("Failed save the gift. Status: " + response.status);
-    //                 }
-
-    //             })
-
-    //     }
-    //     else {
-
-    //         fetch("https://noel.helvie.fr/api/updateCadeau", {
-    //             method: 'POST',
-    //             headers: {
-    //                 "Noel-Token": user.token,
-    //                 "User-Name": encodeURIComponent(user.name),
-    //                 "App-Name": "NoelTan",
-    //                 "content-type": 'application/json'
-    //             },
-    //             body: JSON.stringify({
-    //                 id: giftDatas.giftKey,
-    //                 title: giftDatas.titleInput ? giftDatas.titleInput : giftDatas.title ? giftDatas.title : "",
-    //                 detail: giftDatas.detailInput ? giftDatas.detailInput : giftDatas.detail ? giftDatas.detail : "",
-    //                 url: giftDatas.urlInput ? giftDatas.urlInput : giftDatas.url ? giftDatas.url : "",
-    //             })
-    //         })
-    //             .then(response => {
-    //                 console.log(response.status);
-    //                 if (response.status === 200) {
-    //                     return response.text();
-    //                 } else {
-    //                     setErrorLoginPass(true)
-    //                     throw new Error("Failed save the gift. Status: " + response.status);
-    //                 }
-    //             })
-    //             .then(data => {
-    //                 console.log("reussi")
-    //             })
-    //             .catch(error => {
-    //                 console.log("Erreur dans l'enregistrement", error);
-    //             })
-    //     }
-
-
-
-    //     closeModal();
-    // };
 
 
     //....Réinitialisation des données au clic sur annuler dans modale
@@ -1012,7 +904,7 @@ function HomePage() {
         //....ailleurs que dans un cadeau qui est déjà en cours de modification
         if (editingGift !== -1 && editingGift !== clickedIndex) {
             //....on ouvre la modale de validation d'enregistrement
-            openSaveModal()
+            setOpenChangeSectionModal(true)
         }
     }
 
@@ -1075,7 +967,7 @@ function HomePage() {
                                 className={styles.userDataIcon}
                                 icon={faPersonThroughWindow}
                                 onClick={() => window.location.reload()}
-                                />
+                            />
                         </div>}
 
 
@@ -1149,6 +1041,15 @@ function HomePage() {
                                 {/* <button className={styles.modalCloseButton} onClick={closeModal}></button> */}
                                 <button onClick={() => handleSaveChanges(modifiedData)}>Sûr.e de vouloir enregistrer !!!</button>
                                 <button onClick={resetData}>Bof, on remet comme avant</button>
+                            </div>
+                        </div>
+                    )}
+
+                    {openChangeSectionModal && (
+                        <div className={styles.modal}>
+                            <div className={styles.modalDialog2}>
+                                <p>Tu dois enregistrer ou annuler avant de changer de section</p>
+                                <button onClick={() => setOpenChangeSectionModal(false)}>Compris !</button>
                             </div>
                         </div>
                     )}

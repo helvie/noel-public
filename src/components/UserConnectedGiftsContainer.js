@@ -52,7 +52,7 @@ function UserConnectedGiftsContainer(props) {
     const noOfferedGifts = props.noOfferedGifts.sort((a, b) => Number(a.Ordre) - Number(b.Ordre));
     const offeredGifts = props.offeredGifts.sort((a, b) => Number(a.Ordre) - Number(b.Ordre));
 
-
+    console.log(lowestOrderGift)
 
     //______________________________________________________________________________
 
@@ -65,10 +65,12 @@ function UserConnectedGiftsContainer(props) {
             detail: "",
             url: "",
             id: 999999,
-            Ordre: lowestOrderGift - 1,
+            Ordre: lowestOrderGift.Ordre - 1,
             date: formattedDate,
             offered: false
         };
+
+        console.log(newEmptyGift)
 
 
         // Appel de la fonction pour ajouter le nouveau cadeau chez le parent
